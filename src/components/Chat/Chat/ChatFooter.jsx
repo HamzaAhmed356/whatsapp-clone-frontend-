@@ -1,9 +1,9 @@
 import { Box, InputBase, styled } from "@mui/material";
-import { EmojiEmotionsOutlined, Send } from "@mui/icons-material";
+import { EmojiEmotionsOutlined, Send, Upload } from "@mui/icons-material";
 import { AttachFile } from "@mui/icons-material";
 import { Mic } from "@mui/icons-material";
-import { useState } from "react";
-
+import { useEffect, useState } from "react";
+import { UploadFile } from "../../../services/api";
 const Container = styled(Box)`
   height: 55px;
   background: #ededed;
@@ -40,12 +40,55 @@ const MicIcon = styled(Mic)`
   margin-right: 20px;
   margin-left: auto;
 `;
-const ChatFooter = ({ sendText, setValue, value }) => {
+//props comes from Messages.jsx
+const ChatFooter = ({
+  sendText,
+  setValue,
+  value,
+  setFile,
+  file,
+  conversationId,
+  senderId,
+  receiverId,
+}) => {
+  useEffect(() => {
+    //for uploading pdfs or files
+    const getImage = async () => {
+      if (file) {
+        const data = new FormData();
+
+        data.append("file", file);
+        data.append("conversationId", conversationId);
+        data.append("senderId", senderId);
+        data.append("receiverId", receiverId);
+        data.append("name", file.name);
+        const response = await UploadFile(data);
+        console.log(response);
+      }
+    };
+    getImage();
+  }, [file]);
+
+  const onFileChange = (e) => {
+    //e.target.value contain file path
+    console.log(e);
+    //e.target.files[0] file at index 0
+    setFile(e.target.files[0]);
+    setValue(e.target.files[0].name);
+  };
   return (
     <Container>
       <IconWrapperleft>
         <EmojiEmotionsOutlined />
-        <AttachFile />
+        <label htmlFor="attachFile">
+          <AttachFile />
+        </label>
+        <input
+          type="file"
+          id="attachFile"
+          style={{ display: "none" }}
+          onChange={(e) => onFileChange(e)}
+        />
       </IconWrapperleft>
       <InputField
         placeholder="Type a message"

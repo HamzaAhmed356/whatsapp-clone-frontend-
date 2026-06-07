@@ -1,8 +1,8 @@
 import { Box, Avatar, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
-import { useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { AccountContext } from "../Context/accountProvider";
-import { setConversation } from "../services/api";
+import { getConversation, setConversation } from "../services/api";
 const Card = styled(Box)`
   display: flex;
   align-items: center;
@@ -32,7 +32,18 @@ const LastMessage = styled(Typography)`
 `;
 
 const ConversationCard = ({ user }) => {
-  const { setPerson, account } = useContext(AccountContext);
+  const { setPerson, account, messageFlag } = useContext(AccountContext);
+  const [message, setMessage] = useState({});
+  useEffect(() => {
+    const getConversationDatails = async () => {
+      const data = await getConversation({
+        senderId: account.sub,
+        receiverId: user.sub,
+      });
+      setMessage({ text: data?.message, timestamp: data?.updatedAt });
+    };
+    getConversationDatails();
+  }, [messageFlag]);
   const getUser = async () => {
     console.log(account.sub, user.sub, "creater");
     //user clicked person // account login person
@@ -48,7 +59,7 @@ const ConversationCard = ({ user }) => {
       />
       <UserInfo>
         <Username>{user.name}</Username>
-        <LastMessage></LastMessage>
+        <LastMessage>{message?.text}</LastMessage>
       </UserInfo>
     </Card>
   );

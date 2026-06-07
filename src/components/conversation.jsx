@@ -11,7 +11,7 @@ const Container = styled(Box)`
 `;
 
 const Conversation = ({ text }) => {
-  const { account } = useContext(AccountContext);
+  const { account, socket, setActiveUsers } = useContext(AccountContext);
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -25,6 +25,13 @@ const Conversation = ({ text }) => {
     };
     fetchData();
   }, [text]);
+  useEffect(() => {
+    socket.current.emit("addUsers", account);
+    socket.current.on("getUsers", (users) => {
+      //will return active users from socket.io index.js
+      setActiveUsers(users);
+    });
+  }, [account]);
 
   return (
     <Container>

@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "http://localhost:3001";
+const url = process.env.REACT_APP_API_URL || "https://whatsapp-clone-backend-production-042c.up.railway.app";
 export const addUser = async (data) => {
   try {
     await axios.post(`${url}/add`, data);
@@ -48,5 +48,13 @@ export const getMessage = async (id) => {
     return response.data;
   } catch (error) {
     console.log(error);
+  }
+};
+export const UploadFile = async (data) => {
+  try {
+    await axios.post(`${url}/file/upload`, data);
+    console.log("uploaded successfully");
+  } catch (error) {
+    console.log("api .js Upload File error", error);
   }
 };
