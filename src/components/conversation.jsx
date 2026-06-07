@@ -31,13 +31,13 @@ const Conversation = ({ text }) => {
       //will return active users from socket.io index.js
       setActiveUsers(users);
     });
-  }, [account]);
+  }, [account, socket, setActiveUsers]);
 
   return (
     <Container>
       {users.map(
         (user) =>
-          account.sub != user.sub && (
+          account.sub !== user.sub && (
             <ConversationCard key={user._id} user={user} />
           ),
       )}

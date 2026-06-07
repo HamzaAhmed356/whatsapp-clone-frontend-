@@ -1,7 +1,7 @@
 import { styled, Dialog, ListItem, List, Box } from "@mui/material";
 import { GoogleLogin } from "@react-oauth/google";
-import jwt_decode, { jwtDecode } from "jwt-decode";
-import AccountProvider, { AccountContext } from "../../Context/accountProvider";
+import { jwtDecode } from "jwt-decode";
+import { AccountContext } from "../../Context/accountProvider";
 import { useContext } from "react";
 import { addUser } from "../../services/api";
 const DialogCss = {

@@ -18,7 +18,7 @@ const ChatBox = () => {
       setConversation(data);
     };
     getConversationDetials();
-  }, [person.sub]);
+  }, [person.sub, account.sub]);
   return (
     <Box>
       <ChatHeader person={person} />

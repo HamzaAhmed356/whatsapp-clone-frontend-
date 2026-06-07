@@ -40,7 +40,7 @@ const ChatHeader = ({ person }) => {
       <Box>
         <Name>{person.name}</Name>
         <OnlineStatus>
-          {activeUsers.find((user) => user.sub == person.sub)
+          {activeUsers.find((user) => user.sub === person.sub)
             ? "Online"
             : "offline"}
         </OnlineStatus>

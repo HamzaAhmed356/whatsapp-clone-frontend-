@@ -1,7 +1,7 @@
 import { Dialog, Box, styled } from "@mui/material";
 import ChatBox from "./Chat/chatBox";
 import EmptyChat from "./Chat/emptyChat";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AccountContext } from "../../Context/accountProvider";
 import Menu from "./Menu/Menu";
 const DialogCss = {
@@ -31,7 +31,6 @@ const Right = styled(Box)`
 
 const ChatDialogue = () => {
   const { person } = useContext(AccountContext);
-  const [profile, setProfile] = useState(person.picture);
 
   return (
     <>
@@ -48,7 +47,7 @@ const ChatDialogue = () => {
           </Left>
           {/*right */}
           <Right>
-            {person.picture != undefined ? <ChatBox /> : <EmptyChat />}
+            {person.picture !== undefined ? <ChatBox /> : <EmptyChat />}
           </Right>
         </Component>
       </Dialog>

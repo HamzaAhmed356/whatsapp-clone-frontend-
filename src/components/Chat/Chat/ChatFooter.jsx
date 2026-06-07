@@ -1,8 +1,8 @@
 import { Box, InputBase, styled } from "@mui/material";
-import { EmojiEmotionsOutlined, Send, Upload } from "@mui/icons-material";
+import { EmojiEmotionsOutlined } from "@mui/icons-material";
 import { AttachFile } from "@mui/icons-material";
 import { Mic } from "@mui/icons-material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { UploadFile } from "../../../services/api";
 const Container = styled(Box)`
   height: 55px;
@@ -67,7 +67,7 @@ const ChatFooter = ({
       }
     };
     getImage();
-  }, [file]);
+  }, [file, conversationId, senderId, receiverId]);
 
   const onFileChange = (e) => {
     //e.target.value contain file path

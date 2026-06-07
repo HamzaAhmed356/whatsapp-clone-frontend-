@@ -43,7 +43,7 @@ const ConversationCard = ({ user }) => {
       setMessage({ text: data?.message, timestamp: data?.updatedAt });
     };
     getConversationDatails();
-  }, [messageFlag]);
+  }, [messageFlag, account.sub, user.sub]);
   const getUser = async () => {
     console.log(account.sub, user.sub, "creater");
     //user clicked person // account login person

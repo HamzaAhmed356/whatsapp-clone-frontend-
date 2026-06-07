@@ -1,10 +1,9 @@
 //drawer profile is on pending
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AccountContext } from "../../../Context/accountProvider";
 import { Box, styled } from "@mui/material";
 import { Chat as MessageIcon } from "@mui/icons-material";
-import infoDrawer from "../../drawer/infoDrawer";
 import HeaderMenu from "./HeaderMenu";
 
 const Component = styled(Box)`

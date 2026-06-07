@@ -1,5 +1,5 @@
 import { Box, Typography, styled } from "@mui/material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { AccountContext } from "../../../Context/accountProvider";
 
 const Own = styled(Box)`
