@@ -6,39 +6,48 @@ import { useEffect } from "react";
 import { UploadFile } from "../../../services/api";
 const Container = styled(Box)`
   height: 55px;
-  background: #ededed;
+  background: #f0f2f5;
   display: flex;
-  width: 96%;
+  width: 100%;
   align-items: center;
-  z-index: -2;
-  padding: 0 15px;
-
-  & > * {
-    margin: 5px;
-    color: #919191;
-  }
+  padding: 0 16px;
+  box-sizing: border-box;
+  gap: 12px;
 `;
 const IconWrapperleft = styled(Box)`
-  z-index: 2;
-  & > svg {
-    margin: 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #54656f;
+  & > svg, & > label > svg {
+    cursor: pointer;
+    font-size: 24px;
+    transition: color 0.2s ease-in-out;
+    &:hover {
+      color: #008069;
+    }
   }
 `;
 const InputField = styled(InputBase)`
   background-color: #ffffff;
-  border-radius: 18px;
-  width: calc(94% - 420px);
-  padding-left: 14px;
-  position: absolute;
-  padding-left: 80px;
-  padding-right: 50px;
+  border-radius: 8px;
+  flex: 1;
+  padding: 0 12px;
+  font-size: 15px;
   height: 40px;
-  margin-bottom: 10px;
+  border: 1px solid transparent;
+  &:focus-within {
+    border-color: #008069;
+  }
 `;
 const MicIcon = styled(Mic)`
-  z-index: 2;
-  margin-right: 20px;
-  margin-left: auto;
+  color: #54656f;
+  cursor: pointer;
+  font-size: 24px;
+  transition: color 0.2s ease-in-out;
+  &:hover {
+    color: #008069;
+  }
 `;
 //props comes from Messages.jsx
 const ChatFooter = ({

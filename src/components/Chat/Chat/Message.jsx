@@ -1,6 +1,7 @@
 import { Box, Typography, styled } from "@mui/material";
 import { useContext } from "react";
 import { AccountContext } from "../../../Context/accountProvider";
+import { AccessTime, Done } from "@mui/icons-material";
 
 const Own = styled(Box)`
   display: flex;
@@ -18,11 +19,17 @@ const Wrapper = styled(Box)(({ own }) => ({
   wordBreak: "break-word",
 }));
 
+const TimeContainer = styled(Box)`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 3px;
+`;
+
 const Time = styled(Typography)`
   font-size: 10px;
-  color: #919191;
-  text-align: right;
-  margin-top: 3px;
+  color: #8696a0;
 `;
 
 const Message = ({ message }) => {
@@ -33,12 +40,23 @@ const Message = ({ message }) => {
     <Own style={{ justifyContent: isOwn ? "flex-end" : "flex-start" }}>
       <Wrapper own={isOwn}>
         <Typography variant="body2">{message.text}</Typography>
-        <Time>
-          {new Date(message.createdAt).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </Time>
+        <TimeContainer>
+          <Time>
+            {new Date(message.createdAt).toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Time>
+          {isOwn && (
+            message.status === "sending" ? (
+              <AccessTime style={{ fontSize: 12, color: "#8696a0" }} />
+            ) : message.status === "failed" ? (
+              <Typography style={{ fontSize: 9, color: "#ea0038", fontWeight: "bold" }}>failed</Typography>
+            ) : (
+              <Done style={{ fontSize: 14, color: "#8696a0" }} />
+            )
+          )}
+        </TimeContainer>
       </Wrapper>
     </Own>
   );

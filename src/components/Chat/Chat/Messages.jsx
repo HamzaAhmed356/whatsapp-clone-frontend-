@@ -8,11 +8,16 @@ import { AccountContext } from "../../../Context/accountProvider";
 import { getMessage } from "../../../services/api";
 const Wrapper = styled(Box)`
   background-image: url(https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png);
-  background-size: 50%;
+  background-size: 30%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 `;
 const Component = styled(Box)`
-  height: 80vh;
-  overflow-y: scroll;
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 24px;
 `;
 const Messages = ({ person, conversation }) => {
   const { account, socket, messageFlag, setMessageFlag } =
@@ -39,25 +44,60 @@ const Messages = ({ person, conversation }) => {
     });
   });
   useEffect(() => {
-    scrollRef.current?.scrollIntoView({ transition: "smooth" });
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   const [file, setFile] = useState();
   const sendText = async (e) => {
     const code = e.keyCode || e.which;
     if (code === 13) {
-      //13 code is enter press
-      let message = {
+      const textValue = value.trim();
+      if (!textValue) return; // Prevent empty messages
+
+      const tempId = Date.now().toString() + Math.random().toString();
+      let tempMessage = {
+        _id: tempId,
         senderId: account.sub,
         receiverId: person.sub,
         conversationId: conversation._id,
         type: "text",
-        text: value,
+        text: textValue,
+        createdAt: Date.now(),
+        status: "sending"
       };
-      socket.current.emit("sendMessage", message);
 
-      await newMessage(message);
+      // Optimistically append the message to the list immediately
+      setMessages((prev) => [...prev, tempMessage]);
       setValue("");
+
+      // Emit message to socket
+      socket.current.emit("sendMessage", tempMessage);
+
+      try {
+        // Post message to the database
+        await newMessage({
+          senderId: account.sub,
+          receiverId: person.sub,
+          conversationId: conversation._id,
+          type: "text",
+          text: textValue,
+        });
+
+        // Update local state to "sent" once saved in DB
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg._id === tempId ? { ...msg, status: "sent" } : msg
+          )
+        );
+      } catch (error) {
+        // Set to "failed" on server error
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg._id === tempId ? { ...msg, status: "failed" } : msg
+          )
+        );
+      }
+
       setMessageFlag(!messageFlag);
     }
   };
@@ -71,8 +111,9 @@ const Messages = ({ person, conversation }) => {
   }, [conversation._id, person._id, messageFlag]);
   return (
     <Wrapper>
-      <Component ref={scrollRef}>
-        {messages && messages.map((message) => <Message message={message} />)}
+      <Component>
+        {messages && messages.map((message) => <Message key={message._id || message.createdAt} message={message} />)}
+        <div ref={scrollRef} />
       </Component>
       <ChatFooter
         sendText={sendText}

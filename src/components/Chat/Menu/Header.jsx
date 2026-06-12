@@ -1,8 +1,6 @@
-//drawer profile is on pending
-
 import { useContext } from "react";
 import { AccountContext } from "../../../Context/accountProvider";
-import { Box, styled } from "@mui/material";
+import { Box, styled, Avatar } from "@mui/material";
 import { Chat as MessageIcon } from "@mui/icons-material";
 import HeaderMenu from "./HeaderMenu";
 
@@ -13,10 +11,9 @@ const Component = styled(Box)`
   display: flex;
   align-items: center;
 `;
-const Image = styled("img")({
+const Image = styled(Avatar)({
   height: 40,
   width: 40,
-  borderRadius: "50%",
 });
 const Wrapper = styled(Box)`
   margin-left: auto;
@@ -36,7 +33,7 @@ const Header = () => {
   return (
     <>
       <Component>
-        <Image src={account.picture} alt="dp" />
+        <Image src={account.picture} alt={account.name} />
 
         <Wrapper>
           <MessageIcon />

@@ -6,29 +6,40 @@ import { getConversation, setConversation } from "../services/api";
 const Card = styled(Box)`
   display: flex;
   align-items: center;
-  padding: 12px;
-  gap: 12px;
+  padding: 12px 16px;
+  gap: 16px;
   cursor: pointer;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid #f2f2f2;
+  transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: #f5f6f6;
+    background-color: #f0f2f5;
   }
 `;
 
 const UserInfo = styled(Box)`
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 0;
 `;
 
 const Username = styled(Typography)`
   font-weight: 500;
-  font-size: 15px;
+  font-size: 16px;
+  color: #111b21;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 const LastMessage = styled(Typography)`
   font-size: 13px;
   color: #667781;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-top: 2px;
 `;
 
 const ConversationCard = ({ user }) => {

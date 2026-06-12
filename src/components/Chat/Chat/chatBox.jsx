@@ -20,7 +20,7 @@ const ChatBox = () => {
     getConversationDetials();
   }, [person.sub, account.sub]);
   return (
-    <Box>
+    <Box style={{ height: "100%", display: "flex", flexDirection: "column" }}>
       <ChatHeader person={person} />
       <Messages person={person} conversation={conversation} />
     </Box>

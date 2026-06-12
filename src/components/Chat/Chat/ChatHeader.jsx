@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
-import { Typography, styled } from "@mui/material";
-import { MoreVert, Search } from "@mui/icons-material";
+import { Box, Typography, styled, useMediaQuery, IconButton, Avatar } from "@mui/material";
+import { MoreVert, Search, ArrowBack } from "@mui/icons-material";
 import { AccountContext } from "../../../Context/accountProvider";
 import { useContext } from "react";
+
 const Component = styled(Box)`
   height: 44px;
   background-color: #ededed;
@@ -10,10 +10,9 @@ const Component = styled(Box)`
   display: flex;
   align-items: center;
 `;
-const Image = styled("img")({
+const Image = styled(Avatar)({
   height: 40,
   width: 40,
-  borderRadius: 50,
 });
 const Name = styled(Typography)`
   margin-left: 12px !important;
@@ -32,11 +31,17 @@ const Right = styled(Box)`
   }
 `;
 const ChatHeader = ({ person }) => {
-  const { activeUsers } = useContext(AccountContext);
+  const { activeUsers, setPerson } = useContext(AccountContext);
+  const isMobile = useMediaQuery("(max-width: 900px)");
 
   return (
     <Component>
-      <Image src={person.picture} alt="dp" />
+      {isMobile && (
+        <IconButton onClick={() => setPerson({})} style={{ padding: 4, marginRight: 8, color: "#54656f" }}>
+          <ArrowBack />
+        </IconButton>
+      )}
+      <Image src={person.picture} alt={person.name} />
       <Box>
         <Name>{person.name}</Name>
         <OnlineStatus>
